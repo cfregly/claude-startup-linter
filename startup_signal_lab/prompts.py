@@ -5,6 +5,9 @@ unit economics, model/tool architecture, platform risk, moat, evals, and activat
 
 Return crisp sections with numbers, decisions, and next actions. Do not invent facts
 about the company; label assumptions explicitly.
+
+Write plain prose: no em-dashes, no buzzwords (leverage, seamless, cutting-edge,
+game-changing), no 'it's not X, it's Y' constructions. Short, verb-led sentences.
 """
 
 
@@ -41,11 +44,11 @@ Cut the generic agent-platform language. Win one painful workflow: always-on pro
 Use a model router: Haiku-class model for trace classification and cheap extraction, Sonnet-class model for most recommendations, Opus-class model only for ambiguous architecture or safety-sensitive decisions. Cache stable context such as product docs, runbooks, and eval rubrics. Expose only high-value MCP tools with precise descriptions; keep sensitive raw traces behind a data-boundary layer and return summaries unless the user explicitly escalates.
 
 ## Platform-risk answer
-The moat is not access to Claude. The moat is workflow ownership, proprietary failure data, eval history, and integrations that make the product an operating layer inside the customer’s deployment process.
+The moat is workflow ownership, proprietary failure data, eval history, and integrations that make the product an operating layer inside the customer’s deployment process. Access to Claude is not a moat.
 
 ## Metrics this week
 Track first connected source, first useful recommendation, second session within 72 hours, weekly active debugging sessions, accepted recommendations, and production fixes linked to a recommendation.
 
 ## 30-second founder advice
-You are not selling an AI window. You are selling a production control loop. The buyer should feel that turning you off would make their agent reliability worse by Monday morning.
+Sell the production control loop, not the chat window. The buyer should feel that turning you off would make their agent reliability worse by Monday morning.
 """
