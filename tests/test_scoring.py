@@ -18,3 +18,12 @@ def test_router_uses_deep_model_for_high_risk_strategy():
     route = route_claude_model("multi-step agent architecture strategy", risk="high", context_tokens=20000)
     assert "opus" in route.model
     assert route.human_review is True
+
+
+def test_slop_buzzwords_cost_a_point_and_flag():
+    plain = score_startup_signal("Our platform helps enterprise teams ship production agents.")
+    sloppy = score_startup_signal(
+        "Our revolutionary, game-changing platform seamlessly helps enterprise teams ship production agents."
+    )
+    assert sloppy.value_prop < plain.value_prop
+    assert any("De-slop" in flag for flag in sloppy.flags)

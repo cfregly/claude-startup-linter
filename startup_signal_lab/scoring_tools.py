@@ -23,6 +23,17 @@ def _has_any(text: str, patterns: list[str]) -> bool:
     return any(p in t for p in patterns)
 
 
+# Buzzwords that spend words without carrying signal; mirrors the pitch-linter
+# BANNED list. Slop costs a point because adjectives displace numbers.
+SLOP_TERMS = [
+    "revolutionary", "revolutioniz", "cutting-edge", "game-changing",
+    "game changing", "seamless", "world-class", "best-in-class",
+    "next-generation", "state-of-the-art", "supercharge", "transformative",
+    "disrupt the", "unlock the", "empower", "blazing", "hypergrowth",
+    "rocketship", "paradigm",
+]
+
+
 def _count_specifics(text: str) -> int:
     # A rough proxy for concrete claims: numbers, named buyers, before/after, integrations.
     return len(re.findall(r"\b\d+(?:\.\d+)?%?|\$\d+|[A-Z][a-zA-Z]+(?:\s[A-Z][a-zA-Z]+)+\b", text))
@@ -87,6 +98,15 @@ def score_startup_signal(text: str) -> StartupSignalScore:
     if _has_any(text, ["always-on", "embedded", "inline", "copilot", "agent", "mcp", "ci", "ide"]):
         differentiation += 1
         value_prop += 1
+
+    slop_hits = [t for t in SLOP_TERMS if t in text.lower()]
+    if slop_hits:
+        value_prop -= 1
+        flags.append(
+            "De-slop the pitch: buzzwords carry no signal ("
+            + ", ".join(slop_hits[:3])
+            + "); replace each with a number or a named workflow."
+        )
 
     value_prop = clamp(value_prop)
     urgency = clamp(urgency)
