@@ -1,5 +1,8 @@
 # claude-startup-linter
 
+[![ci](https://github.com/cfregly/claude-startup-linter/actions/workflows/ci.yml/badge.svg)](https://github.com/cfregly/claude-startup-linter/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 **Diagnose the company.** A 15-minute founder demo for showing how Claude can turn messy startup signal into practical product, GTM, and architecture decisions.
 
 **Proves:** Claude tool use with deterministic scoring, model routing by consequence (Haiku / Sonnet / Opus), a small eval harness, MCP portability, and an Agent SDK review loop.
@@ -93,3 +96,14 @@ Pair it with a production engineering demo such as `claude-prompt-to-production`
 This repo is **the strategy instrument**: score the pitch, sharpen the path to product-market fit, answer platform risk, route the model.
 Its sibling, [`claude-prompt-to-production`](https://github.com/cfregly/claude-prompt-to-production), is **the engineering discipline**: agent loop, eval gate, measured cost engineering.
 Diagnose the business here. Build and measure it there. All sample pitches and data in this repo are fictional.
+
+## Limitations
+
+The scores are a structured starting point, not a verdict. Deterministic scoring
+is a heuristic to open the conversation, not a substitute for judgment. Live
+Claude calls need an API key; without one the app falls back to mock output so
+the demo still runs.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
