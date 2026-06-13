@@ -51,6 +51,7 @@ Tools exposed:
 - `route_claude_model`
 - `estimate_unit_economics`
 - `draft_founder_intervention`
+- `founder_office_hours` - the advisor's forcing questions for the weak dimensions (why now, why not the frontier labs or the cloud, what compounds, data boundary, unit economics)
 
 ## Claude Agent SDK example
 

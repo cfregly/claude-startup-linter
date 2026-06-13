@@ -140,3 +140,78 @@ def score_startup_signal(text: str) -> StartupSignalScore:
 
 def score_as_dict(text: str) -> dict[str, Any]:
     return asdict(score_startup_signal(text))
+
+
+# The advisor's forcing questions: what an AI-startup advisor actually asks in
+# office hours, keyed to the dimension each one pressure-tests. These are
+# specific to AI startups, frontier-lab and cloud platform risk, model
+# economics, data boundaries, and moats that compound with usage, not generic
+# startup coaching. The linter doubles as an office-hours script the founder
+# takes home.
+ADVISOR_QUESTIONS: dict[str, list[str]] = {
+    "value_prop": [
+        "What painful job does this kill, for which exact buyer and role?",
+        "What is the measured before/after in their world: hours, dollars, or conversion?",
+    ],
+    "urgency": [
+        "Why now? What changed this year: model capability, cost per token, or regulation?",
+        "If someone tried this 18 months ago, why did it fail then and work now?",
+    ],
+    "differentiation": [
+        "What compounds with every user or workflow, so you get harder to rip out over time?",
+        "If your accuracy or cost lead is one good prompt, what stops a competitor copying it next week?",
+    ],
+    "platform_risk": [
+        "Why won't OpenAI or Anthropic fold this into the model or a first-party feature?",
+        "Why won't AWS, GCP, or Azure ship it natively, the way SageMaker did to the last generation?",
+        "What do you own that a platform does not: proprietary data, the workflow of record, distribution, or compliance trust?",
+    ],
+    "distribution": [
+        "Name the first 25 buyers. What is the activation event that turns a trial into production usage?",
+        "Who already holds the trust and the install base, and could they be a channel instead of a competitor?",
+    ],
+    "data_boundary": [
+        "What customer data leaves your boundary to a third-party model API, and how do you keep it in-bounds?",
+        "What is the security and eval story a regulated buyer needs before they let an agent act?",
+    ],
+}
+
+# Closers an advisor asks every founder, whatever the score.
+ADVISOR_CLOSERS = [
+    "What single metric would you stake the next 30 days on?",
+    "Have you priced naive vs cached vs routed inference? What is your cost per successful task, and does it fall with scale?",
+]
+
+
+def advisor_questions(score: StartupSignalScore) -> list[dict[str, Any]]:
+    """The office-hours script: forcing questions for the weak dimensions.
+
+    Deterministic, so a founder gets the same interrogation every run and an
+    advisor can hand it over as homework. A dimension surfaces when it scored
+    weak; for platform_risk, weak means HIGH risk.
+    """
+    weak = {
+        "value_prop": score.value_prop <= 5,
+        "urgency": score.urgency <= 5,
+        "differentiation": score.differentiation <= 5,
+        "platform_risk": score.platform_risk >= 6,
+        "distribution": score.distribution <= 5,
+        "data_boundary": score.data_boundary <= 5,
+    }
+    agenda = [
+        {"dimension": dim, "questions": ADVISOR_QUESTIONS[dim]}
+        for dim, is_weak in weak.items()
+        if is_weak
+    ]
+    agenda.append({"dimension": "closers", "questions": ADVISOR_CLOSERS})
+    return agenda
+
+
+def office_hours(text: str) -> dict[str, Any]:
+    """Score a pitch, then return the office-hours agenda for its weak spots."""
+    score = score_startup_signal(text)
+    return {
+        "overall": score.overall,
+        "suggested_wedge": score.suggested_wedge,
+        "agenda": advisor_questions(score),
+    }

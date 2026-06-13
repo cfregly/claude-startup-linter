@@ -1,5 +1,5 @@
 from startup_signal_lab.router import route_claude_model
-from startup_signal_lab.scoring_tools import score_startup_signal
+from startup_signal_lab.scoring_tools import office_hours, score_startup_signal
 
 
 def test_platform_risk_flagged():
@@ -18,6 +18,16 @@ def test_router_uses_deep_model_for_high_risk_strategy():
     route = route_claude_model("multi-step agent architecture strategy", risk="high", context_tokens=20000)
     assert "opus" in route.model
     assert route.human_review is True
+
+
+def test_office_hours_surfaces_ai_platform_risk_questions():
+    result = office_hours("We use OpenAI and Anthropic to build agents for enterprise teams.")
+    dims = {item["dimension"] for item in result["agenda"]}
+    assert "platform_risk" in dims  # naming the model providers raises platform risk
+    assert "closers" in dims        # closers are always on the agenda
+    pr = next(i for i in result["agenda"] if i["dimension"] == "platform_risk")
+    joined = " ".join(pr["questions"]).lower()
+    assert ("anthropic" in joined or "openai" in joined) and ("cloud" in joined or "aws" in joined)
 
 
 def test_slop_buzzwords_cost_a_point_and_flag():

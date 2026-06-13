@@ -5,7 +5,7 @@ from pathlib import Path
 
 from .anthropic_client import analyze_pitch_with_claude
 from .router import route_as_dict
-from .scoring_tools import score_as_dict
+from .scoring_tools import office_hours, score_as_dict
 
 try:
     from mcp.server.fastmcp import FastMCP
@@ -66,6 +66,13 @@ if FastMCP is not None:
         """Draft a founder intervention: value prop, wedge, architecture, platform risk, and metrics."""
         result = analyze_pitch_with_claude(pitch, live=True)
         return result["response"]
+
+    @mcp.tool()
+    def founder_office_hours(pitch: str) -> str:
+        """Run the AI-startup advisor office-hours script: score the pitch, then
+        return the forcing questions for its weak dimensions (why now, why not the
+        frontier labs or the cloud, what compounds, data boundary, unit economics)."""
+        return json.dumps(office_hours(pitch), indent=2)
 else:
     mcp = None
 
