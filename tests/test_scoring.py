@@ -1,3 +1,8 @@
+from startup_signal_lab.growth import (
+    classify_use_cases,
+    growth_office_hours,
+    score_growth_readiness,
+)
 from startup_signal_lab.router import route_claude_model
 from startup_signal_lab.scoring_tools import office_hours, score_startup_signal
 
@@ -37,3 +42,27 @@ def test_slop_buzzwords_cost_a_point_and_flag():
     )
     assert sloppy.value_prop < plain.value_prop
     assert any("De-slop" in flag for flag in sloppy.flags)
+
+
+def test_growth_flags_leaky_bucket():
+    # Strong relationship, no retention story: the leaky-bucket failure.
+    result = score_growth_readiness(
+        "We have a waitlist from our YC community and an accelerator referral, but we have not figured out what keeps users."
+    )
+    assert result.relationship >= 7
+    assert result.retention <= 4
+    assert any("Leaky bucket" in flag for flag in result.flags)
+
+
+def test_growth_office_hours_targets_weakest_stage():
+    result = growth_office_hours("We classify support tickets for enterprise teams.")
+    stages = {item["stage"] for item in result["agenda"]}
+    assert "closers" in stages
+    assert result["weakest_stage"] in {"relationship", "activation", "retention"}
+
+
+def test_use_case_portfolio_sequences_to_a_dot():
+    # An all-agent, no-fast-payback pitch should be told to find a Dot first.
+    portfolio = classify_use_cases("We are building an autonomous multi-step agent platform.")
+    assert not portfolio.dot
+    assert "Dot" in portfolio.advice

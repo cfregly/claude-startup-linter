@@ -6,6 +6,7 @@ import streamlit as st
 from dotenv import load_dotenv
 
 from startup_signal_lab.anthropic_client import analyze_pitch_with_claude
+from startup_signal_lab.growth import classify_use_cases_as_dict, score_growth_as_dict
 
 load_dotenv()
 
@@ -34,6 +35,19 @@ if st.button("Analyze startup signal", type="primary"):
     with right:
         st.subheader("Founder intervention")
         st.markdown(result["response"])
+
+    st.divider()
+    st.subheader("Growth spine: Relationship -> Activation -> Retention")
+    growth = score_growth_as_dict(pitch)
+    gcols = st.columns(3)
+    gcols[0].metric("Relationship", growth["relationship"])
+    gcols[1].metric("Activation", growth["activation"])
+    gcols[2].metric("Retention", growth["retention"])
+    st.caption(f"Weakest stage: {growth['weakest_stage']}. {growth['stage_focus']}")
+    for flag in growth["flags"]:
+        st.markdown(f"- {flag}")
+    st.markdown("**Use-case portfolio (Dot ships now / Dash retains / Star is the bet)**")
+    st.json(classify_use_cases_as_dict(pitch))
 else:
     st.info("Click Analyze startup signal to run the demo.")
 

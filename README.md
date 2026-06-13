@@ -13,6 +13,22 @@ This repo is intentionally built for live developer-audience demos:
 4. Show a simple eval harness that tracks quality hit-rate, latency, routing choice, and token cost on live runs (`python scripts/run_eval.py --live`. Without the flag it smoke-tests the harness offline against the mock response).
 5. Optionally expose the scoring functions as MCP tools.
 
+## Relationship, Activation, Retention
+
+A founder demo should not stop at the pitch. The linter also scores the growth
+spine every Claude startup lives or dies on:
+
+- **Relationship** - who already trusts you, and the community or partner that brings the next 25 buyers.
+- **Activation** - the aha moment and the time-to-value from sign-up to first useful result.
+- **Retention** - what brings a user back the second time, and what expands as they grow. For an AI product the eval set is the moat: the demo wins the trial, the evals win the renewal.
+
+It is a loop, not a funnel. Retained users are the cheapest acquisition you have,
+so retention feeds the top of the next cohort. The scorer names the weakest stage
+and hands back the office-hours questions for it. A companion classifier sorts the
+pitch's AI use cases into Dot (small, proven, ship now), Dash (connective work,
+build next), and Star (the high-ceiling bet, narrate but do not stake the company
+on it yet) so the founder sequences for fast payback first.
+
 ## Why this demo works in front of founders
 
 Founders do not want another generic chatbot. They want a platform partner who can help them make a sharper product decision today. This demo shows Claude as a product-and-architecture co-pilot that understands startup constraints: speed, unit economics, platform risk, data boundaries, and defensible moats.
@@ -52,6 +68,9 @@ Tools exposed:
 - `estimate_unit_economics`
 - `draft_founder_intervention`
 - `founder_office_hours` - the advisor's forcing questions for the weak dimensions (why now, why not the frontier labs or the cloud, what compounds, data boundary, unit economics)
+- `score_growth_readiness` - the Relationship -> Activation -> Retention spine, with the weakest stage to fix first
+- `classify_ai_use_cases` - sort the pitch into Dot (ship now), Dash (build next), and Star (the vision bet) by return horizon and risk
+- `founder_growth_office_hours` - forcing questions for the weakest growth stage, plus the use-case portfolio
 
 ## Claude Agent SDK example
 

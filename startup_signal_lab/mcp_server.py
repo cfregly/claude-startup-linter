@@ -1,9 +1,11 @@
-from __future__ import annotations
-
+# NOTE: no `from __future__ import annotations` here on purpose. FastMCP reads
+# real type annotations off each @mcp.tool() function to build the schema; with
+# stringized annotations it calls issubclass() on a str and crashes at import.
 import json
 from pathlib import Path
 
 from .anthropic_client import analyze_pitch_with_claude
+from .growth import classify_use_cases_as_dict, growth_office_hours, score_growth_as_dict
 from .router import route_as_dict
 from .scoring_tools import office_hours, score_as_dict
 
@@ -73,6 +75,26 @@ if FastMCP is not None:
         return the forcing questions for its weak dimensions (why now, why not the
         frontier labs or the cloud, what compounds, data boundary, unit economics)."""
         return json.dumps(office_hours(pitch), indent=2)
+
+    @mcp.tool()
+    def score_growth_readiness(pitch: str) -> str:
+        """Score the founder's growth spine: Relationship, then Activation, then
+        Retention. Returns the weakest stage to fix first and why."""
+        return json.dumps(score_growth_as_dict(pitch), indent=2)
+
+    @mcp.tool()
+    def classify_ai_use_cases(pitch: str) -> str:
+        """Sort the pitch's AI use cases by return horizon and risk into Dot (ship
+        now, drives activation), Dash (build next, the retention layer), and Star
+        (the high-ceiling vision bet)."""
+        return json.dumps(classify_use_cases_as_dict(pitch), indent=2)
+
+    @mcp.tool()
+    def founder_growth_office_hours(pitch: str) -> str:
+        """Run the growth office-hours script: score Relationship -> Activation ->
+        Retention, classify the use-case portfolio, and return forcing questions
+        for the weakest stage (the cheapest acquisition is the retention you keep)."""
+        return json.dumps(growth_office_hours(pitch), indent=2)
 else:
     mcp = None
 
