@@ -72,6 +72,10 @@ Tools exposed:
 - `classify_ai_use_cases` - sort the pitch into Dot (ship now), Dash (build next), and Star (the vision bet) by return horizon and risk
 - `founder_growth_office_hours` - forcing questions for the weakest growth stage, plus the use-case portfolio
 
+## Claude Skill
+
+Packaged as a Claude Skill in [`skills/startup-linter/SKILL.md`](skills/startup-linter/SKILL.md). In Claude, go to Settings > Capabilities > Skills > Upload skill, then say "diagnose my startup" or "score my pitch." Claude runs the scoring, the Relationship-Activation-Retention read, the use-case sort, and the founder intervention from one prompt: the same diagnosis without cloning the repo.
+
 ## Claude Agent SDK example
 
 See `examples/agent_sdk_repo_reviewer.py` for a repo-review agent that uses Claude Code/Agent SDK style workflows to inspect a repository and produce a founder-ready launch plan.

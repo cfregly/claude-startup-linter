@@ -55,8 +55,9 @@ ACTIVATION_SIGNALS = [
 ]
 RETENTION_SIGNALS = [
     "retention", "retained", "weekly active", "daily active", "habit", "renewal",
-    "renew", "expansion", "net revenue retention", "nrr", "churn", "stickiness",
-    "system of record", "second use", "comes back", "recurring", "production usage",
+    "renew", "expansion", "net revenue retention", "nrr", "net dollar retention",
+    "ndr", "engagement retention", "churn", "stickiness", "system of record",
+    "second use", "comes back", "recurring", "production usage",
 ]
 
 
@@ -201,7 +202,7 @@ GROWTH_ADVISOR_QUESTIONS: dict[str, list[str]] = {
     ],
     "retention": [
         "What brings a user back the second time, unprompted, on their own data?",
-        "What expands as the customer grows, and what is your net revenue retention by cohort?",
+        "Is your net dollar retention above 100%, and is engagement retention (the leading indicator) climbing before paid retention?",
         "For an AI product: what is your eval set, the thing that wins the renewal after the demo wins the trial?",
     ],
 }
