@@ -24,13 +24,24 @@ def _has_any(text: str, patterns: list[str]) -> bool:
 
 
 # Buzzwords that spend words without carrying signal; mirrors the pitch-linter
-# BANNED list. Slop costs a point because adjectives displace numbers.
+# BANNED list. Slop costs a point because adjectives displace numbers. The
+# second and third blocks merge the gstack writing-rules vocabulary and filler
+# phrases (github.com/garrytan/gstack, MIT).
 SLOP_TERMS = [
     "revolutionary", "revolutioniz", "cutting-edge", "game-changing",
     "game changing", "seamless", "world-class", "best-in-class",
     "next-generation", "state-of-the-art", "supercharge", "transformative",
     "disrupt the", "unlock the", "empower", "blazing", "hypergrowth",
     "rocketship", "paradigm",
+    # gstack AI vocabulary
+    "leverage", "delve", "synergy", "holistic", "passionate", "innovative",
+    "furthermore", "moreover", "additionally", "tapestry", "landscape",
+    "foster", "underscore", "showcase", "multifaceted", "vibrant",
+    "intricate", "nuanced", "pivotal", "robust", "comprehensive", "crucial",
+    "significant", "fundamental", "interplay",
+    # gstack filler phrases
+    "here's the kicker", "here's the thing", "let me break this down",
+    "the bottom line", "make no mistake", "plot twist",
 ]
 
 
