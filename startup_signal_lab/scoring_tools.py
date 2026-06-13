@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass
+import json
+import pathlib
 import re
 from typing import Any
 
@@ -23,26 +25,12 @@ def _has_any(text: str, patterns: list[str]) -> bool:
     return any(p in t for p in patterns)
 
 
-# Buzzwords that spend words without carrying signal; mirrors the pitch-linter
-# BANNED list. Slop costs a point because adjectives displace numbers. The
-# second and third blocks merge the gstack writing-rules vocabulary and filler
-# phrases (github.com/garrytan/gstack, MIT).
-SLOP_TERMS = [
-    "revolutionary", "revolutioniz", "cutting-edge", "game-changing",
-    "game changing", "seamless", "world-class", "best-in-class",
-    "next-generation", "state-of-the-art", "supercharge", "transformative",
-    "disrupt the", "unlock the", "empower", "blazing", "hypergrowth",
-    "rocketship", "paradigm",
-    # gstack AI vocabulary
-    "leverage", "delve", "synergy", "holistic", "passionate", "innovative",
-    "furthermore", "moreover", "additionally", "tapestry", "landscape",
-    "foster", "underscore", "showcase", "multifaceted", "vibrant",
-    "intricate", "nuanced", "pivotal", "robust", "comprehensive", "crucial",
-    "significant", "fundamental", "interplay",
-    # gstack filler phrases
-    "here's the kicker", "here's the thing", "let me break this down",
-    "the bottom line", "make no mistake", "plot twist",
-]
+# Buzzwords that spend words without carrying signal. Slop costs a point because
+# adjectives displace numbers. The shared canon (buzzword stems plus filler
+# phrases) loads from slop_rules.json, synced from the claude-deslop repo; do
+# not hand-edit it. Stems like "leverag" match as substrings.
+_RULES = json.loads((pathlib.Path(__file__).parent / "slop_rules.json").read_text())
+SLOP_TERMS = _RULES["buzzwords"] + _RULES["phrases"]
 
 
 def _count_specifics(text: str) -> int:
