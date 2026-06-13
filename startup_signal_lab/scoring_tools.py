@@ -163,7 +163,7 @@ ADVISOR_QUESTIONS: dict[str, list[str]] = {
     ],
     "platform_risk": [
         "Why won't OpenAI or Anthropic fold this into the model or a first-party feature?",
-        "Why won't AWS, GCP, or Azure ship it natively, the way SageMaker did to the last generation?",
+        "Why won't AWS, GCP, or Azure ship it natively and win on distribution, the way the cloud absorbed the last wave of ML tooling?",
         "What do you own that a platform does not: proprietary data, the workflow of record, distribution, or compliance trust?",
     ],
     "distribution": [
