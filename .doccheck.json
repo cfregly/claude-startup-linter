@@ -1,6 +1,13 @@
 {
   "owner": "cfregly",
   "repo": "claude-startup-linter",
-  "old_names": ["claude-startup-signal-lab"],
-  "docs": ["README.md"]
+  "old_names": [
+    "claude-startup-signal-lab"
+  ],
+  "docs": [
+    "README.md"
+  ],
+  "score_modules": [
+    "startup_signal_lab.score"
+  ]
 }

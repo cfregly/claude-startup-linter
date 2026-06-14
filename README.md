@@ -83,6 +83,12 @@ Packaged as a Claude Skill in [`skills/startup-linter/SKILL.md`](skills/startup-
 
 [`examples/strong_pitch.md`](examples/strong_pitch.md) is a strong pitch. It scores 8 of 10, answers platform risk, and earns a scale-the-wedge call. [`examples/sample_pitch.md`](examples/sample_pitch.md) is a mid-stage one with weaker spots. Paste either into the app, or score it headless, to see the signal score, the office-hours agenda, and the intervention. A pitch that names a model provider but never answers "why won't they absorb this?" scores worse than one that does, by design.
 
+Score it headless from the repo root:
+
+```bash
+python -m startup_signal_lab.score examples/strong_pitch.md   # 8/10
+```
+
 ## Claude Agent SDK example
 
 See `examples/agent_sdk_repo_reviewer.py` for a repo-review agent that uses Claude Code/Agent SDK style workflows to inspect a repository and produce a founder-ready launch plan.
