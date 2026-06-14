@@ -77,7 +77,7 @@ Tools exposed:
 
 ## Claude Skill
 
-Packaged as a Claude Skill in [`skills/startup-linter/SKILL.md`](skills/startup-linter/SKILL.md). In Claude, go to Settings > Capabilities > Skills > Upload skill, then say "diagnose my startup" or "score my pitch." Claude runs the scoring, the Relationship-Activation-Retention read, the use-case sort, and the founder intervention from one prompt: the same diagnosis without cloning the repo.
+Packaged as a Claude Skill in [`skills/startup-linter/SKILL.md`](skills/startup-linter/SKILL.md). Install it as a Claude Code plugin with `/plugin marketplace add cfregly/claude-startup-linter` then `/plugin install startup-linter@startup-linter-plugins`, or upload the `skills/startup-linter/` folder in the Claude app under Settings > Skills (see [Anthropic's skills guide](https://github.com/anthropics/skills)). Then say "diagnose my startup" or "score my pitch." Claude runs the scoring, the Relationship-Activation-Retention read, the use-case sort, and the founder intervention from one prompt: the same diagnosis without cloning the repo.
 
 ## Example pitches
 
@@ -91,7 +91,7 @@ python -m startup_signal_lab.score examples/strong_pitch.md   # 8/10
 
 ## Claude Agent SDK example
 
-See `examples/agent_sdk_repo_reviewer.py` for a repo-review agent that uses Claude Code/Agent SDK style workflows to inspect a repository and produce a founder-ready launch plan.
+See `examples/agent_sdk_repo_reviewer.py` for a repo-review agent that uses the [Claude Agent SDK](https://github.com/anthropics/claude-agent-sdk-python) to inspect a repository and produce a founder-ready launch plan.
 
 This example needs the optional Agent SDK, which is intentionally not in `requirements.txt`: `pip install claude-agent-sdk`.
 

@@ -14,10 +14,10 @@ from startup_signal_lab.scoring_tools import score_startup_signal
 
 
 def main(argv: list[str]) -> int:
-    if not argv:
+    if not argv or argv[0] in ("-h", "--help"):
         print("usage: python -m startup_signal_lab.score <pitch.md> [<pitch.md> ...]",
               file=sys.stderr)
-        return 2
+        return 0 if argv else 2
     for arg in argv:
         path = pathlib.Path(arg)
         score = score_startup_signal(path.read_text(encoding="utf-8"))
