@@ -80,7 +80,25 @@ def score_startup_signal(text: str) -> StartupSignalScore:
         data_boundary += 3
         urgency += 1
 
-    if _has_any(text, ["openai", "anthropic", "claude", "gemini", "cloud", "aws", "bedrock", "azure"]):
+    # Platform risk is whether you ANSWER "why won't the platform absorb this?",
+    # not whether you name a vendor. Naming OpenAI with no answer raises the
+    # risk; a real answer -- you own the workflow of record, the customer eval
+    # set, the data boundary, a moat that compounds -- lowers it. The old check
+    # only saw the vendor name, so the pitch that best answered platform risk
+    # scored worst. Now an answer wins over a mention.
+    answers_platform_risk = _has_any(text, [
+        "why won't", "why wouldn't", "wouldn't the", "won't the model",
+        "workflow of record", "system of record", "own the workflow",
+        "eval set", "data boundary", "switching cost", "not the model",
+        "compounds", "proprietary data", "privileged", "audit trail",
+    ])
+    names_platform = _has_any(text, [
+        "openai", "anthropic", "claude", "gemini", "cloud", "aws", "bedrock",
+        "azure", "model provider", "frontier model", "incumbent", "the platform",
+    ])
+    if answers_platform_risk:
+        platform_risk -= 2
+    elif names_platform:
         platform_risk += 2
         flags.append("Explicit platform-risk story required: why won't the model/cloud platform absorb this?")
 
@@ -116,12 +134,15 @@ def score_startup_signal(text: str) -> StartupSignalScore:
     # Platform risk is inverted in the overall score: lower risk is better.
     overall = round((value_prop + urgency + differentiation + distribution + data_boundary + (11 - platform_risk)) / 6)
 
-    if overall >= 8:
-        wedge = "Double down on the narrow wedge; show the fastest path from first use to weekly habit."
-    elif differentiation >= 7 and distribution <= 5:
-        wedge = "The product may be sharp, but GTM is the bottleneck; define the partner/channel motion."
+    # A strong pitch with no weak dimensions should hear "scale it", not the
+    # generic "narrow the buyer" -- telling a founder who already named a narrow
+    # buyer and a painful metric to narrow further is the wedge logic misfiring.
+    if overall >= 8 or (overall >= 7 and not flags):
+        wedge = "Strong signal across the board. Pick the single wedge workflow, then instrument time-to-value and cost per successful task as you scale it."
     elif platform_risk >= 7:
         wedge = "Lead with platform-risk mitigation: data, workflow ownership, evals, and customer-specific integrations."
+    elif differentiation >= 7 and distribution <= 5:
+        wedge = "The product may be sharp, but GTM is the bottleneck; define the partner/channel motion."
     else:
         wedge = "Narrow the buyer and convert the pitch from category language to a painful operational metric."
 

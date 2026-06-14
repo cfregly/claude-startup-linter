@@ -79,6 +79,10 @@ Tools exposed:
 
 Packaged as a Claude Skill in [`skills/startup-linter/SKILL.md`](skills/startup-linter/SKILL.md). In Claude, go to Settings > Capabilities > Skills > Upload skill, then say "diagnose my startup" or "score my pitch." Claude runs the scoring, the Relationship-Activation-Retention read, the use-case sort, and the founder intervention from one prompt: the same diagnosis without cloning the repo.
 
+## Example pitches
+
+[`examples/strong_pitch.md`](examples/strong_pitch.md) is a strong pitch. It scores 8 of 10, answers platform risk, and earns a scale-the-wedge call. [`examples/sample_pitch.md`](examples/sample_pitch.md) is a mid-stage one with weaker spots. Paste either into the app, or score it headless, to see the signal score, the office-hours agenda, and the intervention. A pitch that names a model provider but never answers "why won't they absorb this?" scores worse than one that does, by design.
+
 ## Claude Agent SDK example
 
 See `examples/agent_sdk_repo_reviewer.py` for a repo-review agent that uses Claude Code/Agent SDK style workflows to inspect a repository and produce a founder-ready launch plan.
@@ -101,7 +105,7 @@ Diagnose the business here. Build and measure it there. All sample pitches and d
 
 The scores are a structured starting point, not a verdict. Deterministic scoring
 is a heuristic to open the conversation, not a substitute for judgment. Live
-Claude calls need an API key; without one the app falls back to mock output so
+Claude calls need an API key. Without one the app falls back to mock output so
 the demo still runs.
 
 ## License

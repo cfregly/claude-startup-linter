@@ -3,9 +3,9 @@ name: startup-linter
 description: >-
   Diagnose an AI startup with Claude. Score a founder pitch on value
   proposition, urgency, differentiation, platform risk, distribution, and data
-  boundary; score the Relationship, Activation, Retention growth spine and name
-  the weakest stage to fix first; sort the AI use cases into Dot (ship now),
-  Dash (build next), Star (the vision bet); and run the office-hours forcing
+  boundary. Score the Relationship, Activation, Retention growth spine and name
+  the weakest stage to fix first. Sort the AI use cases into Dot (ship now),
+  Dash (build next), Star (the vision bet), and run the office-hours forcing
   questions. Use when a founder wants a product, GTM, or architecture
   diagnosis, a path to product-market fit, a platform-risk answer, a model
   route, a week-one activation metric, or a growth-readiness read. Triggers on
@@ -26,7 +26,10 @@ intervention, so the advice is grounded in the same numbers every run.
 Collect the pitch, website copy, or README. One paragraph is enough to start.
 
 ### 2. Score the signal
-Run the deterministic scorers (the repo exposes them as functions and MCP tools):
+The deterministic scores are a fast, explainable triage signal that focuses the
+Claude intervention on the weak dimensions. They are not the final grade: the
+judgment is the intervention in step 4. Run the scorers (the repo exposes them
+as functions and MCP tools):
 - `score_startup_signal`: value prop, urgency, differentiation, platform risk, distribution, data boundary.
 - `score_growth_readiness`: the Relationship, Activation, Retention spine, with the weakest stage named.
 - `classify_ai_use_cases`: Dot (small, proven, ship now), Dash (connective, build next), Star (high-ceiling bet).

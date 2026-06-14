@@ -35,6 +35,40 @@ def test_office_hours_surfaces_ai_platform_risk_questions():
     assert ("anthropic" in joined or "openai" in joined) and ("cloud" in joined or "aws" in joined)
 
 
+def test_answering_platform_risk_beats_naming_it():
+    # Regression: the pitch that ANSWERS platform risk (owns the workflow, the
+    # eval set, not the model) must score lower risk than one that only names a
+    # vendor -- the old scorer rewarded the mention and punished the answer.
+    names_only = score_startup_signal(
+        "We use OpenAI to build support agents for enterprise teams.")
+    answers = score_startup_signal(
+        "We use OpenAI, but we own the workflow of record and the customer eval "
+        "set, not the model, so a model provider cannot absorb this.")
+    assert answers.platform_risk < names_only.platform_risk
+    assert not any("platform-risk" in f for f in answers.flags)
+
+
+def test_strong_pitch_gets_a_scale_wedge_not_narrow():
+    # Regression: a strong pitch with no weak dimensions used to fall through to
+    # the generic "narrow the buyer" advice. It should hear "scale it".
+    strong = (
+        "We reduce support handle time from 8 minutes to 40 seconds and resolve "
+        "62% of tickets end to end. We own the workflow of record and the "
+        "customer eval set, not the model, and keep data behind the customer's "
+        "security boundary. Our first 25 buyers are heads of support, and usage "
+        "compounds as accounts expand.")
+    wedge = office_hours(strong)["suggested_wedge"].lower()
+    assert "scale it" in wedge and "narrow the buyer" not in wedge
+
+
+def test_bundled_strong_pitch_example_scores_well_and_scales():
+    import pathlib
+    text = (pathlib.Path(__file__).resolve().parent.parent
+            / "examples" / "strong_pitch.md").read_text()
+    assert score_startup_signal(text).overall >= 7
+    assert "scale it" in office_hours(text)["suggested_wedge"].lower()
+
+
 def test_slop_buzzwords_cost_a_point_and_flag():
     plain = score_startup_signal("Our platform helps enterprise teams ship production agents.")
     sloppy = score_startup_signal(
