@@ -7,6 +7,7 @@
 
 **Proves:** Claude tool use with deterministic scoring, model routing by consequence (Haiku / Sonnet / Opus), a small eval harness, MCP portability, and an Agent SDK review loop.
 **Production lesson:** route by consequence, not ego - and answer the platform-risk question before investors or customers ask it.
+**Run in under 5 minutes:** `python -m startup_signal_lab.score examples/strong_pitch.md` - 8 of 10, offline, no API key.
 
 This repo is intentionally built for live developer-audience demos:
 
